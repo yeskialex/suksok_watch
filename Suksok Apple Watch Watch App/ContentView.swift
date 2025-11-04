@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WatchKit
 
 // Data structures for complex pages
 struct BackgroundElement: Identifiable {
@@ -62,10 +63,11 @@ struct ConversationStep {
     let fontSize: CGFloat
     let characterImageSize: CGSize
     let characterImageOffset: CGFloat
+    let enableVibration: Bool
     let backgroundElements: [BackgroundElement]?
     let overlayElements: [OverlayElement]?
 
-    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 14, characterImageSize: CGSize = CGSize(width: 140, height: 110), characterImageOffset: CGFloat = 0, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
+    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 14, characterImageSize: CGSize = CGSize(width: 140, height: 110), characterImageOffset: CGFloat = 0, enableVibration: Bool = false, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
         self.text = text
         self.characterImage = characterImage
         self.backgroundColor = backgroundColor
@@ -73,6 +75,7 @@ struct ConversationStep {
         self.fontSize = fontSize
         self.characterImageSize = characterImageSize
         self.characterImageOffset = characterImageOffset
+        self.enableVibration = enableVibration
         self.backgroundElements = backgroundElements
         self.overlayElements = overlayElements
     }
@@ -83,119 +86,124 @@ struct ContentView: View {
 
     // Conversation flow data
     private let conversationSteps = [
-//        // Simple page 1
-//        ConversationStep(
-//            text: "안녕! 민준아",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Simple page 2
-//        ConversationStep(
-//            text: "나는 널 도와줄\n친구야!",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Simple page 3
-//        ConversationStep(
-//            text: "너에게 이름을\n지어줄래?",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Simple page 4
-//        ConversationStep(
-//            text: "와, 콩콩이!\n멋진 이름이야",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Complex page 5 - with hearts overlay
-//        ConversationStep(
-//            text: "잘 지내보자,\n항상 네 옆에 있을게",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
-//            overlayElements: [
-//                OverlayElement(imageName: "heart", position: CGPoint(x: 40, y: 85), size: CGSize(width: 20, height: 20)),
-//                OverlayElement(imageName: "heart", position: CGPoint(x: 20, y: 150), size: CGSize(width: 20, height: 20)),
-//                OverlayElement(imageName: "heart", position: CGPoint(x: 140, y: 120), size: CGSize(width: 20, height: 20))
-//            ]
-//        ),
-//
-//        // Simple page 6
-//        ConversationStep(
-//            text: "민준아, 나좀 봐봐~",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Simple page 7
-//        ConversationStep(
-//            text: "너의 마음이\n편해질때까지\n기다릴게",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Complex page 8 - Different background color with dummy heart rate
-//        ConversationStep(
-//            text: "심장이 정말 빨리\n뛰고 있어",
-//            characterImage: "orange_character_new",
-//            backgroundColor: Color.orange,
-//            textColor: .black,
-//            backgroundElements: [
-//                BackgroundElement(imageName: "heartrate_line_atas", position: CGPoint(x: 100, y: 90), size: CGSize(width: 200, height: 50)),
-//                BackgroundElement(imageName: "heartrate_line_bawah", position: CGPoint(x: 100, y: 135), size: CGSize(width: 200, height: 50))
-//            ],
-//            overlayElements: [
-//                OverlayElement(text: "100", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 1.0, green: 1, blue: 1)),
-//                OverlayElement(text: "BPM", position: CGPoint(x: 105, y: 83), fontSize: 12, textColor: Color(red: 1.0, green: 1, blue: 1))
-//            ]
-//        ),
-//
-//        // Complex page 9 - Different background color
-//        ConversationStep(
-//            text: "원래 모습으로\n돌아오고 있어",
-//            characterImage: "orange_character_new",
-//            backgroundColor: Color(red: 1.0, green: 0.7, blue: 0.6),
-//            textColor: .gray,
-//
-//            backgroundElements: [
-//                BackgroundElement(imageName: "heartrate", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
-//            ],
-//            overlayElements: [
-//                OverlayElement(text: "80", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 1.0, green: 1, blue: 1)),
-//                OverlayElement(text: "BPM", position: CGPoint(x: 100, y: 83), fontSize: 12, textColor: Color(red: 1, green: 1, blue: 1))
-//            ]
-//        ),
-//
-//        // Simple page 10
-//        ConversationStep(
-//            text: "잘했어!\n이제 이야기해보자",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
-//            backgroundElements: [
-//                BackgroundElement(imageName: "heartrate_terakhir", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
-//            ],
-//            overlayElements: [
-//                OverlayElement(text: "80", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 0.0, green: 0.48, blue: 0.92)),
-//                OverlayElement(text: "BPM", position: CGPoint(x: 100, y: 83), fontSize: 12, textColor: Color(red: 0.0, green: 0.48, blue: 0.92))
-//            ]
-//        ),
-//
-//        // Page 11 - Breathing intro
-//        ConversationStep(
-//            text: "이제 나를 따라서\n숨을 쉬어봐",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
-//
-//        // Page 12 - Breathing exercise 1
-//        ConversationStep(
-//            text: "코로 들이 마셔봐\n하나, 둘, 셋",
-//            characterImage: "orangecharacter",
-//            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
-//        ),
+        // Simple page 1
+        ConversationStep(
+            text: "안녕! 민준아",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Simple page 2
+        ConversationStep(
+            text: "나는 널 도와줄\n친구야!",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Simple page 3
+        ConversationStep(
+            text: "너에게 이름을\n지어줄래?",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Simple page 4
+        ConversationStep(
+            text: "와, 콩콩이!\n멋진 이름이야",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Complex page 5 - with hearts overlay
+        ConversationStep(
+            text: "잘 지내보자,\n항상 네 옆에 있을게",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            overlayElements: [
+                OverlayElement(imageName: "heart", position: CGPoint(x: 40, y: 85), size: CGSize(width: 20, height: 20)),
+                OverlayElement(imageName: "heart", position: CGPoint(x: 20, y: 150), size: CGSize(width: 20, height: 20)),
+                OverlayElement(imageName: "heart", position: CGPoint(x: 140, y: 120), size: CGSize(width: 20, height: 20))
+            ]
+        ),
+
+        // Simple page 6
+        ConversationStep(
+            text: "민준아, 나좀 봐봐~",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Simple page 7
+        ConversationStep(
+            text: "너의 마음이\n편해질때까지\n기다릴게",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Complex page 8 - Different background color with dummy heart rate
+        ConversationStep(
+            text: "심장이 정말 빨리\n뛰고 있어",
+            characterImage: "orange_character_new",
+            backgroundColor: Color.orange,
+            textColor: .black,
+            enableVibration: true,  // Enables vibration for this step
+            backgroundElements: [
+                BackgroundElement(imageName: "heartrate_line_atas", position: CGPoint(x: 100, y: 90), size: CGSize(width: 200, height: 50)),
+                BackgroundElement(imageName: "heartrate_line_bawah", position: CGPoint(x: 100, y: 135), size: CGSize(width: 200, height: 50))
+            ],
+            overlayElements: [
+                OverlayElement(text: "100", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 1.0, green: 1, blue: 1)),
+                OverlayElement(text: "BPM", position: CGPoint(x: 105, y: 83), fontSize: 12, textColor: Color(red: 1.0, green: 1, blue: 1))
+            ]
+        ),
+
+        // Complex page 9 - Different background color
+        ConversationStep(
+            text: "원래 모습으로\n돌아오고 있어",
+            characterImage: "orange_character_new",
+            backgroundColor: Color(red: 1.0, green: 0.7, blue: 0.6),
+            textColor: .gray,
+            enableVibration: true,  // Enables vibration for this step
+
+
+            backgroundElements: [
+                BackgroundElement(imageName: "heartrate", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
+            ],
+            overlayElements: [
+                OverlayElement(text: "80", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 1.0, green: 1, blue: 1)),
+                OverlayElement(text: "BPM", position: CGPoint(x: 100, y: 83), fontSize: 12, textColor: Color(red: 1, green: 1, blue: 1))
+            ]
+        ),
+
+        // Simple page 10
+        ConversationStep(
+            text: "잘했어!\n이제 이야기해보자",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableVibration: true,  // Enables vibration for this step
+
+            backgroundElements: [
+                BackgroundElement(imageName: "heartrate_terakhir", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
+            ],
+            overlayElements: [
+                OverlayElement(text: "80", position: CGPoint(x: 70, y: 80), fontSize: 24, textColor: Color(red: 0.0, green: 0.48, blue: 0.92)),
+                OverlayElement(text: "BPM", position: CGPoint(x: 100, y: 83), fontSize: 12, textColor: Color(red: 0.0, green: 0.48, blue: 0.92))
+            ]
+        ),
+
+        // Page 11 - Breathing intro
+        ConversationStep(
+            text: "이제 나를 따라서\n숨을 쉬어봐",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
+
+        // Page 12 - Breathing exercise 1
+        ConversationStep(
+            text: "코로 들이 마셔봐\n하나, 둘, 셋",
+            characterImage: "orangecharacter",
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+        ),
 
         // Page 13 - Breathing visual 1 (pill with flame)
         ConversationStep(
@@ -247,8 +255,13 @@ struct ContentView: View {
             text: "후 ~",
             characterImage: "candle_no_light",
             
+            
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            
             characterImageSize: CGSize(width: 80, height: 80),
+            
+            enableVibration: true,  // Enables vibration for this step
+
 //            backgroundElements: [
 //                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
 //            ]
@@ -271,6 +284,8 @@ struct ContentView: View {
             text: "이제 나에게\n너의 기분을 알려줘",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableVibration: true,  // Enables vibration for this step
+
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
                 OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
@@ -294,6 +309,8 @@ struct ContentView: View {
             text: "왜 슬펐는지\n말해줄 수 있어?",
             characterImage: "orange_sad",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableVibration: true,  // Enables vibration for this step
+
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
                 OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
@@ -348,7 +365,10 @@ struct ContentView: View {
             backgroundColor: Color.black,
             textColor: .white,
             fontSize: 19,  // Larger text
+            
             characterImageSize: CGSize(width: 200, height: 150),  // Smaller character
+            enableVibration: true,  // Enables vibration for this step
+
             overlayElements: [
                 OverlayElement(imageName: "candy", position: CGPoint(x: 75, y: 180), size: CGSize(width: 40, height: 40))
             ]
@@ -361,7 +381,7 @@ struct ContentView: View {
             backgroundColor: Color.black,
             characterImageSize: CGSize(width: 250, height: 200),  // Smaller character
             characterImageOffset: -80,  // Moves image up by 30 points
-
+            enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
                 OverlayElement(imageName: "candy", position: CGPoint(x: 120, y: 170), size: CGSize(width: 50, height: 50))
@@ -375,7 +395,9 @@ struct ContentView: View {
             characterImage: "kid_2",
             backgroundColor: Color.black,
             characterImageSize: CGSize(width: 250, height: 180),
-            characterImageOffset: -60  // Moves image up by 30 points
+            characterImageOffset: -60,  // Moves image up by 30 points
+            enableVibration: true,  // Enables vibration for this step
+
 
            
         ),
@@ -386,7 +408,10 @@ struct ContentView: View {
             characterImage: "kid_3",
             backgroundColor: Color.black,
             characterImageSize: CGSize(width: 250, height: 180),
-            characterImageOffset: -60
+            
+            characterImageOffset: -60,
+            enableVibration: true,  // Enables vibration for this step
+
 
            
         ),
@@ -414,6 +439,8 @@ struct ContentView: View {
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             characterImageSize: CGSize(width: 200, height: 150),  // Smaller character
             characterImageOffset: -30,
+            enableVibration: true,  // Enables vibration for this step
+
 
 
             overlayElements: [
@@ -428,6 +455,8 @@ struct ContentView: View {
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             characterImageSize: CGSize(width: 250, height: 150),  // Smaller character
             characterImageOffset: -30,
+            enableVibration: true,  // Enables vibration for this step
+
 
 
         ),
@@ -455,6 +484,8 @@ struct ContentView: View {
             text: "먹어보는거 어때?",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableVibration: true,  // Enables vibration for this step
+
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
                 OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
@@ -571,6 +602,17 @@ struct ContentView: View {
         .onTapGesture {
             // Advance to next step, loop back to start
             currentStep = (currentStep + 1) % conversationSteps.count
+
+            // Trigger vibration if enabled for the new step
+            if currentConversationStep.enableVibration {
+                WKInterfaceDevice.current().play(.notification)
+            }
+        }
+        .onAppear {
+            // Trigger vibration when view first appears if enabled
+            if currentConversationStep.enableVibration {
+                WKInterfaceDevice.current().play(.notification)
+            }
         }
     }
 }
