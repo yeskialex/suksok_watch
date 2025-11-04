@@ -82,20 +82,20 @@ struct ContentView: View {
 
         // Simple page 4
         ConversationStep(
-            text: "와, 좋잖아!\n정말 멋진 이름이야",
+            text: "와, 좋잖아!\n멋진 이름이야",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
 
         // Complex page 5 - with hearts overlay
         ConversationStep(
-            text: "우리 잘 지내보자, 민준아\n나는 항상 네 곁에 있을게!",
+            text: "우리 잘 지내보자,\n항상 네 옆에 있을게",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             overlayElements: [
-                OverlayElement(imageName: "heart", position: CGPoint(x: 50, y: 100), size: CGSize(width: 30, height: 30)),
-                OverlayElement(imageName: "heart", position: CGPoint(x: 150, y: 80), size: CGSize(width: 25, height: 25)),
-                OverlayElement(imageName: "heart", position: CGPoint(x: 180, y: 120), size: CGSize(width: 20, height: 20))
+                OverlayElement(imageName: "heart", position: CGPoint(x: 40, y: 85), size: CGSize(width: 20, height: 20)),
+                OverlayElement(imageName: "heart", position: CGPoint(x: 20, y: 150), size: CGSize(width: 20, height: 20)),
+                OverlayElement(imageName: "heart", position: CGPoint(x: 140, y: 120), size: CGSize(width: 20, height: 20))
             ]
         ),
 
@@ -108,36 +108,41 @@ struct ContentView: View {
 
         // Simple page 7
         ConversationStep(
-            text: "너의 마음이 편해질때까지\n기다릴게",
+            text: "너의 마음이\n편해질때까지\n기다릴게",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
 
         // Complex page 8 - Different background color with dummy heart rate
         ConversationStep(
-            text: "100 BPM",
+            text: "심장이 정말 빨리\n뛰고 있어",
             characterImage: "orange_character_new",
             backgroundColor: Color.orange,
             backgroundElements: [
-                BackgroundElement(imageName: "heartrate_line", position: CGPoint(x: 100, y: 150), size: CGSize(width: 200, height: 50))
+                BackgroundElement(imageName: "heartrate_line_atas", position: CGPoint(x: 100, y: 90), size: CGSize(width: 200, height: 50)),
+                BackgroundElement(imageName: "heartrate_line_bawah", position: CGPoint(x: 100, y: 135), size: CGSize(width: 200, height: 50))
+
             ]
         ),
 
         // Complex page 9 - Different background color
         ConversationStep(
-            text: "80%",
+            text: "원래 모습으로\n돌아오고 있어",
             characterImage: "orange_character_new",
             backgroundColor: Color(red: 1.0, green: 0.7, blue: 0.6),
             backgroundElements: [
-                BackgroundElement(imageName: "heartrate_line", position: CGPoint(x: 100, y: 160), size: CGSize(width: 180, height: 40))
+                BackgroundElement(imageName: "heartrate", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
             ]
         ),
 
         // Simple page 10
         ConversationStep(
-            text: "잘했어!\n이제 나랑 이야기해보자",
+            text: "잘했어!\n이제 이야기해보자",
             characterImage: "orangecharacter",
-            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            backgroundElements: [
+                BackgroundElement(imageName: "heartrate_terakhir", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
+            ]
         ),
 
         // Page 11 - Breathing intro
@@ -157,28 +162,28 @@ struct ContentView: View {
         // Page 13 - Breathing visual 1 (pill with flame)
         ConversationStep(
             text: "여기 있는\n촛불을 후 불어서 꺼줘!",
-            characterImage: "",
+            characterImage: "candle_light",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
-            backgroundElements: [
-                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120)),
-                BackgroundElement(imageName: "flame_top", position: CGPoint(x: 100, y: 120), size: CGSize(width: 40, height: 60))
-            ]
+//            backgroundElements: [
+//                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120)),
+//                BackgroundElement(imageName: "flame_top", position: CGPoint(x: 100, y: 120), size: CGSize(width: 40, height: 60))
+//            ]
         ),
 
         // Page 14 - Breathing visual 2 (just pill)
         ConversationStep(
             text: "후 ~",
-            characterImage: "",
+            characterImage: "candle_no_light",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
-            backgroundElements: [
-                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
-            ]
+//            backgroundElements: [
+//                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
+//            ]
         ),
 
         // Page 15 - Continue breathing
         ConversationStep(
             text: "한번 더 해볼까?",
-            characterImage: "orangecharacter",
+            characterImage: "candle_light",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
 
@@ -196,7 +201,7 @@ struct ContentView: View {
         // Page 17 - Breathing visual 4 (just pill)
         ConversationStep(
             text: "후~",
-            characterImage: "",
+            characterImage: "candle_no_light",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             backgroundElements: [
                 BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
@@ -353,7 +358,7 @@ struct ContentView: View {
                 Text(currentConversationStep.text)
                     .padding(.horizontal, 15)
                     .padding(.top, 30)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(Color(red: 0.0, green: 0.48, blue: 0.92))
                     .opacity(0.8)
                     .multilineTextAlignment(.center)
