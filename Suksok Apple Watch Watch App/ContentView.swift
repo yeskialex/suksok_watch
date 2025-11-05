@@ -67,7 +67,7 @@ struct ConversationStep {
     let backgroundElements: [BackgroundElement]?
     let overlayElements: [OverlayElement]?
 
-    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 14, characterImageSize: CGSize = CGSize(width: 140, height: 110), characterImageOffset: CGFloat = 0, enableVibration: Bool = false, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
+    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 20, characterImageSize: CGSize = CGSize(width: 160, height: 130), characterImageOffset: CGFloat = 0, enableVibration: Bool = false, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
         self.text = text
         self.characterImage = characterImage
         self.backgroundColor = backgroundColor
@@ -287,8 +287,8 @@ struct ContentView: View {
             enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
-                OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
-                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
+                OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
+                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 90, y: 100), size: CGSize(width: 40, height: 40))
             ]
         ),
         
@@ -312,8 +312,8 @@ struct ContentView: View {
             enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
-                OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
-                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
+                OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
+                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 90, y: 100), size: CGSize(width: 40, height: 40))
             ]
         ),
         
@@ -326,19 +326,19 @@ struct ContentView: View {
         ),
         
         ConversationStep(
-            text: "민준아, 나도 너처럼\n사탕을 무척 좋아해!",
+            text: "민준아, 나도 너처럼\n밥을 무척 좋아해!",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
         
         ConversationStep(
-            text: "근데 사탕은\n건강한 음식이",
+            text: "근데 밥을\n너무 많이 먹으면",
             characterImage: "orange_maybe",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
         
         ConversationStep(
-            text: "아니라서\n많이 먹으면 안돼",
+            text: "배가 아플 수도 있어",
             characterImage: "orange_maybe",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
@@ -346,7 +346,7 @@ struct ContentView: View {
         
 
         ConversationStep(
-            text: "사탕을 많이\n먹으면 어떻게 될까?",
+            text: "밥을 더\n먹으면 어떻게 될까?",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
@@ -360,17 +360,20 @@ struct ContentView: View {
 
         // Page 21 - Start meditation with human character
         ConversationStep(
-            text: "\n사랑을 3번 늘려봐!",
+            text: "\n밥을 3번 늘려봐!",
             characterImage: "kid_grey",
             backgroundColor: Color.black,
             textColor: .white,
             fontSize: 19,  // Larger text
+
             
             characterImageSize: CGSize(width: 200, height: 150),  // Smaller character
+            characterImageOffset: -30,  // Moves image up by 30 points
+
             enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
-                OverlayElement(imageName: "candy", position: CGPoint(x: 75, y: 180), size: CGSize(width: 40, height: 40))
+                OverlayElement(imageName: "rice", position: CGPoint(x: 100, y: 175), size: CGSize(width: 50, height: 50))
             ]
         ),
 
@@ -384,7 +387,7 @@ struct ContentView: View {
             enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
-                OverlayElement(imageName: "candy", position: CGPoint(x: 120, y: 170), size: CGSize(width: 50, height: 50))
+                OverlayElement(imageName: "rice", position: CGPoint(x: 120, y: 175), size: CGSize(width: 50, height: 50))
             ]
             
         ),
@@ -397,7 +400,9 @@ struct ContentView: View {
             characterImageSize: CGSize(width: 250, height: 180),
             characterImageOffset: -60,  // Moves image up by 30 points
             enableVibration: true,  // Enables vibration for this step
-
+            overlayElements: [
+                OverlayElement(imageName: "rice", position: CGPoint(x: 120, y: 175), size: CGSize(width: 50, height: 50))
+            ]
 
            
         ),
@@ -418,14 +423,14 @@ struct ContentView: View {
 
         // Page 25 - Reflection question 1
         ConversationStep(
-            text: "봤지? 사탕을 많이\n먹으면 건강이 나빠져",
+            text: "봤지? 밥을 많이\n먹으면 건강이 나빠져",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
 
         // Page 26 - Reflection question 2
         ConversationStep(
-            text: "사탕을 잘 참은\n친구도 보러 가볼까?",
+            text: "밥을 한 그긋만\n친구도 보러 가볼까?",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
 
@@ -434,7 +439,7 @@ struct ContentView: View {
 
 //         Page 27 - Show completion with lollipop and sparkles
         ConversationStep(
-            text: "사탕을 옆으로 밀어봐!",
+            text: "밥을 한 그릇 먹어봐!",
             characterImage: "kid_grey",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             characterImageSize: CGSize(width: 200, height: 150),  // Smaller character
@@ -444,7 +449,7 @@ struct ContentView: View {
 
 
             overlayElements: [
-                OverlayElement(imageName: "candy", position: CGPoint(x: 100, y: 180), size: CGSize(width: 50, height: 50))
+                OverlayElement(imageName: "rice", position: CGPoint(x: 100, y: 180), size: CGSize(width: 50, height: 50))
             ]
         ),
 
@@ -470,7 +475,7 @@ struct ContentView: View {
         
         // Page 29 - Return to orange character - final question
         ConversationStep(
-            text: "민준이도 사탕은\n한 개씩만?",
+            text: "민준이도 밥은\n한 그릇만",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
         ),
@@ -487,8 +492,8 @@ struct ContentView: View {
             enableVibration: true,  // Enables vibration for this step
 
             overlayElements: [
-                OverlayElement(imageName: "ellipse", position: CGPoint(x: 80, y: 100), size: CGSize(width: 250, height: 250)),
-                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 80, y: 100), size: CGSize(width: 40, height: 40))
+                OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
+                OverlayElement(imageName: "microphone-2", position: CGPoint(x: 90, y: 100), size: CGSize(width: 40, height: 40))
             ]
         ),
         
@@ -558,7 +563,7 @@ struct ContentView: View {
                 // Korean text - fixed position at top
                 Text(currentConversationStep.text)
                     .padding(.horizontal, 15)
-                    .padding(.top, 30)
+                    .padding(.top, 10)
                     .font(.system(size: currentConversationStep.fontSize, weight: .semibold))
                     .foregroundColor(currentConversationStep.textColor)
                     .opacity(0.8)
@@ -574,7 +579,7 @@ struct ContentView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: currentConversationStep.characterImageSize.width, height: currentConversationStep.characterImageSize.height)
                         .padding(.top, 10 + currentConversationStep.characterImageOffset)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, -10)
                 }
             }
 
