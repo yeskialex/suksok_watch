@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WatchKit
+import AVFoundation
 
 // Data structures for complex pages
 struct BackgroundElement: Identifiable {
@@ -64,10 +65,11 @@ struct ConversationStep {
     let characterImageSize: CGSize
     let characterImageOffset: CGFloat
     let enableVibration: Bool
+    let enableSpeech: Bool
     let backgroundElements: [BackgroundElement]?
     let overlayElements: [OverlayElement]?
 
-    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 20, characterImageSize: CGSize = CGSize(width: 160, height: 130), characterImageOffset: CGFloat = 0, enableVibration: Bool = false, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
+    init(text: String, characterImage: String, backgroundColor: Color, textColor: Color = Color(red: 0.0, green: 0.48, blue: 0.92), fontSize: CGFloat = 20, characterImageSize: CGSize = CGSize(width: 160, height: 130), characterImageOffset: CGFloat = 0, enableVibration: Bool = false, enableSpeech: Bool = true, backgroundElements: [BackgroundElement]? = nil, overlayElements: [OverlayElement]? = nil) {
         self.text = text
         self.characterImage = characterImage
         self.backgroundColor = backgroundColor
@@ -76,6 +78,7 @@ struct ConversationStep {
         self.characterImageSize = characterImageSize
         self.characterImageOffset = characterImageOffset
         self.enableVibration = enableVibration
+        self.enableSpeech = enableSpeech
         self.backgroundElements = backgroundElements
         self.overlayElements = overlayElements
     }
@@ -83,6 +86,7 @@ struct ConversationStep {
 
 struct ContentView: View {
     @State private var currentStep = 0
+    @State private var speechSynthesizer = AVSpeechSynthesizer()
 
     // Conversation flow data
     private let conversationSteps = [
@@ -130,7 +134,8 @@ struct ContentView: View {
         ConversationStep(
             text: "민준아, 나좀 봐봐~",
             characterImage: "orangecharacter",
-            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableVibration: true
         ),
 
         // Simple page 7
@@ -223,6 +228,8 @@ struct ContentView: View {
             
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             characterImageSize: CGSize(width: 80, height: 80),
+            enableSpeech: false,  // This page won't be spoken
+
 //            backgroundElements: [
 //                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
 //            ]
@@ -261,6 +268,8 @@ struct ContentView: View {
             characterImageSize: CGSize(width: 80, height: 80),
             
             enableVibration: true,  // Enables vibration for this step
+            enableSpeech: false,  // This page won't be spoken
+
 
 //            backgroundElements: [
 //                BackgroundElement(imageName: "breathing_pill", position: CGPoint(x: 100, y: 180), size: CGSize(width: 60, height: 120))
@@ -285,6 +294,8 @@ struct ContentView: View {
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             enableVibration: true,  // Enables vibration for this step
+            enableSpeech: false,  // This page won't be spoken
+
 
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
@@ -296,6 +307,7 @@ struct ContentView: View {
             text: "너가 슬프니까\n나도 마음이 안 좋아",
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+            
         ),
         
         ConversationStep(
@@ -310,6 +322,8 @@ struct ContentView: View {
             characterImage: "orange_sad",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             enableVibration: true,  // Enables vibration for this step
+            enableSpeech: false,  // This page won't be spoken
+
 
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
@@ -322,7 +336,9 @@ struct ContentView: View {
         ConversationStep(
             text: "왜 슬펐는지\n말해줄 수 있어?",
             characterImage: "oraneg_idk",
-            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97)
+            backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
+            enableSpeech: false,  // This page won't be spoken
+
         ),
         
         ConversationStep(
@@ -360,7 +376,7 @@ struct ContentView: View {
 
         // Page 21 - Start meditation with human character
         ConversationStep(
-            text: "\n밥을 3번 늘려봐!",
+            text: "\n밥을 3번 눌러봐!",
             characterImage: "kid_grey",
             backgroundColor: Color.black,
             textColor: .white,
@@ -490,6 +506,7 @@ struct ContentView: View {
             characterImage: "orangecharacter",
             backgroundColor: Color(red: 0.89, green: 0.93, blue: 0.97),
             enableVibration: true,  // Enables vibration for this step
+            enableSpeech: false,  // This page won't be spoken
 
             overlayElements: [
                 OverlayElement(imageName: "ellipse", position: CGPoint(x: 90, y: 100), size: CGSize(width: 250, height: 250)),
@@ -540,6 +557,23 @@ struct ContentView: View {
 
     private var currentConversationStep: ConversationStep {
         conversationSteps[currentStep]
+    }
+
+    // Function to speak Korean text
+    private func speakText(_ text: String) {
+        // Stop any current speech
+        speechSynthesizer.stopSpeaking(at: .immediate)
+
+        // Skip if text is empty or speech is disabled for current step
+        guard !text.isEmpty && currentConversationStep.enableSpeech else { return }
+
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "ko-KR")
+        utterance.rate = 0.3 // Slower rate for children
+        utterance.pitchMultiplier = 1.1 // Slightly higher pitch for friendly tone
+        utterance.volume = 0.8
+
+        speechSynthesizer.speak(utterance)
     }
 
     var body: some View {
@@ -612,12 +646,18 @@ struct ContentView: View {
             if currentConversationStep.enableVibration {
                 WKInterfaceDevice.current().play(.notification)
             }
+
+            // Speak the text for the new step
+            speakText(currentConversationStep.text)
         }
         .onAppear {
             // Trigger vibration when view first appears if enabled
             if currentConversationStep.enableVibration {
                 WKInterfaceDevice.current().play(.notification)
             }
+
+            // Speak the text when the view first appears
+            speakText(currentConversationStep.text)
         }
     }
 }
